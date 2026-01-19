@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Course Registration Module</h1>
+
+  <form id="courseForm">
+    <input type="text" id="studentName" placeholder="Student Name" required />
+    <input type="text" id="matricNumber" placeholder="Matric Number (LCU/CS/2023/001)" required />
+    <input type="text" id="courseCode" placeholder="Course Code" required />
+    <input type="text" id="courseTitle" placeholder="Course Title" required />
+    <button type="submit">Register Course</button>
+  </form>
+
+  <h2>Registered Courses</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Matric</th>
+        <th>Course Code</th>
+        <th>Course Title</th>
+      </tr>
+    </thead>
+    <tbody id="courseTable"></tbody>
+  </table>
+
+  <hr/>
+
+  <h1>Integrated Data Dashboard</h1>
+  <button id="refreshBtn">Refresh Data</button>
+  <p id="loading"></p>
+  <p id="error"></p>
+  <div id="apiData"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
