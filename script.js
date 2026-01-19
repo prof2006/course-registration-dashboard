@@ -42,3 +42,35 @@ form.addEventListener("submit", function (e) {
   displayCourses();
   form.reset();
 });
+// API SECTION
+const apiData = document.getElementById("apiData");
+const loading = document.getElementById("loading");
+const error = document.getElementById("error");
+const refreshBtn = document.getElementById("refreshBtn");
+
+async function fetchCountryData() {
+  apiData.innerHTML = "";
+  error.textContent = "";
+  loading.textContent = "Loading data...";
+
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    if (!response.ok) throw new Error("Failed to fetch data");
+
+    const data = await response.json();
+    const country = data[Math.floor(Math.random() * data.length)];
+
+    apiData.innerHTML = `
+      <h3>${country.name.common}</h3>
+      <p>Population: ${country.population}</p>
+      <p>Region: ${country.region}</p>
+    `;
+  } catch (err) {
+    error.textContent = err.message;
+  } finally {
+    loading.textContent = "";
+  }
+}
+
+refreshBtn.addEventListener("click", fetchCountryData);
+fetchCountryData();
