@@ -42,28 +42,28 @@ form.addEventListener("submit", function (e) {
   displayCourses();
   form.reset();
 });
-// API SECTION
+// API SECTION (Random User API)
 const apiData = document.getElementById("apiData");
 const loading = document.getElementById("loading");
 const error = document.getElementById("error");
 const refreshBtn = document.getElementById("refreshBtn");
 
-async function fetchCountryData() {
+async function fetchUserData() {
   apiData.innerHTML = "";
   error.textContent = "";
   loading.textContent = "Loading data...";
 
   try {
-    const response = await fetch("https://restcountries.com/v3.1/all");
+    const response = await fetch("https://randomuser.me/api/");
     if (!response.ok) throw new Error("Failed to fetch data");
 
     const data = await response.json();
-    const country = data[Math.floor(Math.random() * data.length)];
+    const user = data.results[0];
 
     apiData.innerHTML = `
-      <h3>${country.name.common}</h3>
-      <p>Population: ${country.population}</p>
-      <p>Region: ${country.region}</p>
+      <h3>${user.name.first} ${user.name.last}</h3>
+      <p>Email: ${user.email}</p>
+      <p>Country: ${user.location.country}</p>
     `;
   } catch (err) {
     error.textContent = err.message;
@@ -72,5 +72,5 @@ async function fetchCountryData() {
   }
 }
 
-refreshBtn.addEventListener("click", fetchCountryData);
-fetchCountryData();
+refreshBtn.addEventListener("click", fetchUserData);
+fetchUserData();
