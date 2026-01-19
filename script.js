@@ -43,34 +43,33 @@ form.addEventListener("submit", function (e) {
   form.reset();
 });
 // API SECTION (Random User API)
-const apiData = document.getElementById("apiData");
-const loading = document.getElementById("loading");
-const error = document.getElementById("error");
-const refreshBtn = document.getElementById("refreshBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const apiData = document.getElementById("apiData");
+  const loading = document.getElementById("loading");
+  const error = document.getElementById("error");
+  const refreshBtn = document.getElementById("refreshBtn");
 
-async function fetchUserData() {
-  apiData.innerHTML = "";
-  error.textContent = "";
-  loading.textContent = "Loading data...";
+  async function fetchData() {
+    loading.textContent = "Loading data...";
+    error.textContent = "";
+    apiData.innerHTML = "";
 
-  try {
-    const response = await fetch("https://randomuser.me/api/");
-    if (!response.ok) throw new Error("Failed to fetch data");
+    try {
+      const res = await fetch("https://api.github.com/users/octocat");
+      const data = await res.json();
 
-    const data = await response.json();
-    const user = data.results[0];
-
-    apiData.innerHTML = `
-      <h3>${user.name.first} ${user.name.last}</h3>
-      <p>Email: ${user.email}</p>
-      <p>Country: ${user.location.country}</p>
-    `;
-  } catch (err) {
-    error.textContent = err.message;
-  } finally {
-    loading.textContent = "";
+      apiData.innerHTML = `
+        <h3>${data.login}</h3>
+        <p>Public Repos: ${data.public_repos}</p>
+        <p>Followers: ${data.followers}</p>
+      `;
+    } catch (e) {
+      error.textContent = "Error loading data";
+    } finally {
+      loading.textContent = "";
+    }
   }
-}
 
-refreshBtn.addEventListener("click", fetchUserData);
-fetchUserData();
+  refreshBtn.addEventListener("click", fetchData);
+  fetchData();
+});
